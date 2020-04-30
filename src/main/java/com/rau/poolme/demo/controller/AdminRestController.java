@@ -49,6 +49,13 @@ public class AdminRestController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    /*@RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity adminSave(@RequestBody @Valid Users users){
+        usersService.save(users);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }*/
+
+
     @RequestMapping(value = "user/delete/{id}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity userDelete(@PathParam("id") @PathVariable int id){
         usersService.delete(id);
@@ -68,17 +75,6 @@ public class AdminRestController {
         List<Users> usersList = usersService.getAll();
         return new ResponseEntity<>(usersList,HttpStatus.OK);
     }
-    @RequestMapping(value = "user/getAllUserss",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Users>> getAllUserss(){
-        Users users = new Users();
-        users.setName("Artur");
-        users.setPassword("asd");
-        users.setLastname("erem");
-        usersService.save(users);
-        List<Users> usersList = usersService.getAll();
-        return new ResponseEntity<>(usersList,HttpStatus.OK);
-    }
-
 
     @RequestMapping(value = "user/getOnlyPassenger",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Users>> getOnlyPassenger(){
