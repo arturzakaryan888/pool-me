@@ -68,6 +68,16 @@ public class AdminRestController {
         List<Users> usersList = usersService.getAll();
         return new ResponseEntity<>(usersList,HttpStatus.OK);
     }
+    @RequestMapping(value = "user/getAllUserss",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Users>> getAllUserss(){
+        Users users = new Users();
+        users.setName("Artur");
+        users.setPassword("asd");
+        users.setLastname("erem");
+        usersService.save(users);
+        List<Users> usersList = usersService.getAll();
+        return new ResponseEntity<>(usersList,HttpStatus.OK);
+    }
 
 
     @RequestMapping(value = "user/getOnlyPassenger",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
