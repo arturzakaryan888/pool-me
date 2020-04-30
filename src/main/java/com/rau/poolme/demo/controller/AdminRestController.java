@@ -49,11 +49,11 @@ public class AdminRestController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    /*@RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity adminSave(@RequestBody @Valid Users users){
-        usersService.save(users);
+    @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity adminSave(@RequestBody @Valid Admin admin){
+        adminService.update(admin);
         return new ResponseEntity(HttpStatus.CREATED);
-    }*/
+    }
 
 
     @RequestMapping(value = "user/delete/{id}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
