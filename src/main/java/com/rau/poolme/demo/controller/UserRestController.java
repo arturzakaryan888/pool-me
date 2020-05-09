@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class UserRestController {
     @Autowired
     private UsersService usersService;
-
+    /*https://poolme.herokuapp.com/user/save*/
     @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity save(@RequestBody @Valid Users users){
         usersService.save(users);

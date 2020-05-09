@@ -66,11 +66,11 @@ public class AdminRestController {
     public ResponseEntity getUser(@PathParam("id") @PathVariable int id){
         Users findUser = usersService.getById(id);
         if (findUser == null){
-            return new ResponseEntity<Users>(findUser,HttpStatus.CREATED);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Users>(findUser,HttpStatus.OK);
     }
-    @RequestMapping(value = "user/getAllUsers",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/getAllUsers",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Users>> getAllUsers(){
         List<Users> usersList = usersService.getAll();
         return new ResponseEntity<>(usersList,HttpStatus.OK);

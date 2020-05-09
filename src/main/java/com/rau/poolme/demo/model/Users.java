@@ -10,7 +10,7 @@ public class Users {
     private int id;
     private String username;
     private String password;
-    private String name;
+    private String email;
     private String lastname;
     private boolean gender;
     private int age;
@@ -48,12 +48,12 @@ public class Users {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLastname() {

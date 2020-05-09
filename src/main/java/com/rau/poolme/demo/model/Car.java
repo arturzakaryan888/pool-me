@@ -18,8 +18,17 @@ public class Car {
     private String model;
     private String type;
     private int seats;
+    private boolean status;
     @DateTimeFormat
     private Date year;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public int getId() {
         return id;
