@@ -19,9 +19,9 @@ import javax.validation.Valid;
 public class UserRestController {
     @Autowired
     private UsersService usersService;
+
     @Autowired
     private TripsService tripsService;
-
 
     /*https://poolme.herokuapp.com/user/save*/
     @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
