@@ -2,7 +2,6 @@ package com.rau.poolme.demo.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Trips {
@@ -22,6 +21,7 @@ public class Trips {
     private Users users;
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
+
 
     public int getId() {
         return id;

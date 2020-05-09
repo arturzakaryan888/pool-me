@@ -11,12 +11,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminRepository adminRepository;
 
-
-
     @Override
     public Admin signIn(String login, String password) {
-        return adminRepository.getByUsernameAndPassword(login,password);
-    }
+        return adminRepository.getByUsernameAndPassword(login,password); }
 
     @Override
     public void update(Admin admin) {
