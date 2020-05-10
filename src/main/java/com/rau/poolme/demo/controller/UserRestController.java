@@ -66,7 +66,7 @@ public class UserRestController {
     public ResponseEntity findTrips(@RequestBody @Valid Trips trips){
         System.out.println(trips);
         Trips[] tripsArrays = tripsService.findTripsByCoordinates(trips);
-        if (tripsList == null){
+        if (tripsArrays == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(tripsArrays,HttpStatus.OK);
