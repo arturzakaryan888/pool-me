@@ -23,6 +23,13 @@ public class Trips {
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
 
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
 
     public int getId() {
         return id;

@@ -65,6 +65,7 @@ public class UserRestController {
     /*https://poolme.herokuapp.com/user/findTrips*/
     @RequestMapping(value = "findTrips",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Trips>> findTrips(@RequestBody @Valid Trips trips){
+        System.out.println(trips);
         List<Trips> tripsList = tripsService.findTripsByCoordinates(trips);
         if (tripsList == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
