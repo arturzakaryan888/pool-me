@@ -62,7 +62,7 @@ public class UserRestController {
     }
 
     /*https://poolme.herokuapp.com/user/findTrips*/
-    @RequestMapping(value = "findTrips",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "findTrips",method = RequestMethod.POST, headers = "Accept=application/json" ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findTrips(@RequestBody @Valid Trips trips){
         System.out.println(trips);
         Trips[] tripsList = tripsService.findTripsByCoordinates(trips);
@@ -73,7 +73,7 @@ public class UserRestController {
     }
 
     /*https://poolme.herokuapp.com/user/acceptTrip*/
-    @RequestMapping(value = "getTrip",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "getTrip",method = RequestMethod.POST,headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTrip(@RequestBody @Valid Users users){
 
         Trips trips = tripsService.findByUsers(users);
