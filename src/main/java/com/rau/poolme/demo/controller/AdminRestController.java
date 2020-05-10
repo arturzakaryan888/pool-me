@@ -5,6 +5,7 @@ import com.rau.poolme.demo.model.Admin;
 import com.rau.poolme.demo.model.Trips;
 import com.rau.poolme.demo.model.Users;
 import com.rau.poolme.demo.service.admin.AdminService;
+import com.rau.poolme.demo.service.mail.MailSenderService;
 import com.rau.poolme.demo.service.trips.TripsService;
 import com.rau.poolme.demo.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -28,6 +30,8 @@ public class AdminRestController {
     UsersService usersService;
     @Autowired
     TripsService tripsService;
+    @Autowired
+    MailSenderService mailSenderService;
 
 
     @RequestMapping(value = "signIn",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +53,9 @@ public class AdminRestController {
     }
     @RequestMapping(value = "updateUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateUser(@RequestBody @Valid Users users){
+        if (users.getDateOfRegistration() == null){
+            users.setDateOfRegistration(new Date());
+        }
         usersService.save(users);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -165,10 +172,15 @@ public class AdminRestController {
         return new ResponseEntity<>(tripsInProgressList,HttpStatus.OK);
     }
 
+    @RequestMapping(value = "get",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity get(){
+        mailSenderService.sendMessage("lilit.simonyan.1998@gmail.com");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
     /*
-    * getNewUsers in 7 days
     * verification email
     *
     * */

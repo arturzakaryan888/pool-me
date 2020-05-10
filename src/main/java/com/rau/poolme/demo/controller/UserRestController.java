@@ -1,10 +1,12 @@
 package com.rau.poolme.demo.controller;
 
 
+import com.rau.poolme.demo.model.StatusTrips;
 import com.rau.poolme.demo.model.Trips;
 import com.rau.poolme.demo.model.Users;
 import com.rau.poolme.demo.service.trips.TripsService;
 import com.rau.poolme.demo.service.users.UsersService;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -19,13 +23,15 @@ import javax.validation.Valid;
 public class UserRestController {
     @Autowired
     private UsersService usersService;
-
     @Autowired
     private TripsService tripsService;
 
     /*https://poolme.herokuapp.com/user/save*/
     @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity save(@RequestBody @Valid Users users){
+        if (users.getDateOfRegistration() == null){
+            users.setDateOfRegistration(new Date());
+        }
         usersService.save(users);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -47,8 +53,34 @@ public class UserRestController {
     /*https://poolme.herokuapp.com/user/createTrip*/
     @RequestMapping(value = "createTrip",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createTrip(@RequestBody @Valid Trips trips){
+        trips.setStatusTrips(StatusTrips.BOOKED);
+        if(trips.getStartTime() == null){
+            trips.setStartTime(new Date());
+        }
         tripsService.save(trips);
+
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    /*https://poolme.herokuapp.com/user/findTrips*/
+    @RequestMapping(value = "findTrips",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Trips>> findTrips(@RequestBody @Valid Trips trips){
+        List<Trips> tripsList = tripsService.findTripsByCoordinates(trips);
+        if (tripsList == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<Trips>>(tripsList,HttpStatus.OK);
+    }
+
+    /*https://poolme.herokuapp.com/user/acceptTrip*/
+    @RequestMapping(value = "getTrip",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getTrip(@RequestBody @Valid Users users){
+
+        Trips trips = tripsService.findByUsers(users);
+        if (trips == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(trips,HttpStatus.CREATED);
     }
 
 

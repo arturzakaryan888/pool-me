@@ -14,6 +14,7 @@ public class Trips {
     private String toLatitude;
     private Date startTime;
     private Date endTime;
+    private int seats;
     private int distance;
     @Enumerated
     private StatusTrips statusTrips;
