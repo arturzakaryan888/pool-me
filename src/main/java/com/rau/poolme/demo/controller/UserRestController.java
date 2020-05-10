@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -66,9 +67,10 @@ public class UserRestController {
     public ResponseEntity findTrips(@RequestBody @Valid Trips trips){
         System.out.println(trips);
         Trips[] tripsArrays = tripsService.findTripsByCoordinates(trips);
-        if (tripsArrays == null){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+            if (tripsArrays.length == 0){
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+
         return new ResponseEntity(tripsArrays,HttpStatus.OK);
     }
 
