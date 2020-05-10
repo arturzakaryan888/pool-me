@@ -8,6 +8,6 @@ import java.util.List;
 public interface TripsService {
     void save(Trips trips);
     List<Trips> getAll();
-    List<Trips> findTripsByCoordinates(Trips trips);
+    Trips[] findTripsByCoordinates(Trips trips);
     Trips findByUsers(Users users);
 }

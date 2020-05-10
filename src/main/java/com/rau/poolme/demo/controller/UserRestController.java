@@ -6,7 +6,6 @@ import com.rau.poolme.demo.model.Trips;
 import com.rau.poolme.demo.model.Users;
 import com.rau.poolme.demo.service.trips.TripsService;
 import com.rau.poolme.demo.service.users.UsersService;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,13 +63,13 @@ public class UserRestController {
 
     /*https://poolme.herokuapp.com/user/findTrips*/
     @RequestMapping(value = "findTrips",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Trips>> findTrips(@RequestBody @Valid Trips trips){
+    public ResponseEntity<Trips[]> findTrips(@RequestBody @Valid Trips trips){
         System.out.println(trips);
-        List<Trips> tripsList = tripsService.findTripsByCoordinates(trips);
+        Trips[] tripsList = tripsService.findTripsByCoordinates(trips);
         if (tripsList == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Trips>>(tripsList,HttpStatus.OK);
+        return new ResponseEntity<Trips[]>(tripsList,HttpStatus.OK);
     }
 
     /*https://poolme.herokuapp.com/user/acceptTrip*/
