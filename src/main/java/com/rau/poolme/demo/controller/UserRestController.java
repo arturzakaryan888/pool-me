@@ -50,14 +50,16 @@ public class UserRestController {
 
     /*https://poolme.herokuapp.com/user/createTrip*/
     @RequestMapping(value = "createTrip",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createTrip(@RequestBody @Valid Trips trips,@RequestBody @Valid Users users){
+    public ResponseEntity createTrip(@RequestBody @Valid Trips trips){
+
         trips.setStatusTrips(StatusTrips.BOOKED);
         if(trips.getStartTime() == null){
             trips.setStartTime(new Date());
         }
+        /*
         Set<Users> usersSet = new HashSet<>();
         usersSet.add(users);
-        trips.setUsersSet(usersSet);
+        trips.setUsersSet(usersSet);*/
         tripsService.save(trips);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -65,8 +67,8 @@ public class UserRestController {
     /*https://poolme.herokuapp.com/user/findTrips*/
     @RequestMapping(value = "findTrips",method = RequestMethod.POST ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findTrips(@RequestBody @Valid Trips trips){
-        Trips[] tripsArrays = tripsService.findTripsByCoordinates(trips);
-            if (tripsArrays.length == 0){
+        List<Trips> tripsArrays = tripsService.findTripsByCoordinates(trips);
+            if (tripsArrays.size() == 0){
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             }
 
@@ -78,7 +80,7 @@ public class UserRestController {
     public ResponseEntity acceptTrip(@RequestBody @Valid Trips trips,@RequestBody @Valid Users users){
         Trips trips1 = tripsService.findById(trips.getId());
         Set<Users> tripsSet = new HashSet<>(trips1.getUsersSet());
-        tripsSet.add(users);
+        tripsSet.addAll(trips.getUsersSet());
         trips1.setUsersSet(tripsSet);
         tripsService.save(trips1);
         return new ResponseEntity(HttpStatus.OK);

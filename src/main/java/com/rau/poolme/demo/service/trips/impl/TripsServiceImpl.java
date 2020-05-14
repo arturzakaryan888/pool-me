@@ -28,7 +28,7 @@ public class TripsServiceImpl implements TripsService  {
     }
 
     @Override
-    public Trips[] findTripsByCoordinates(Trips trips) {
+    public List<Trips> findTripsByCoordinates(Trips trips) {
         return tripsRepository.findTripsByCoordinates(trips.getFromLatitude(),trips.getFromLongitude(),trips.getToLatitude(),trips.getToLongitude());
     }
 

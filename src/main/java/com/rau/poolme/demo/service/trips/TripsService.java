@@ -8,7 +8,7 @@ import java.util.List;
 public interface TripsService {
     void save(Trips trips);
     List<Trips> getAll();
-    Trips[] findTripsByCoordinates(Trips trips);
+    List<Trips> findTripsByCoordinates(Trips trips);
     Trips findByUsers(Users users);
     Trips findById(int id);
 }
