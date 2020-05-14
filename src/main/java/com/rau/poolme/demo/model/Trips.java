@@ -21,7 +21,7 @@ public class Trips {
     @Enumerated
     private StatusTrips statusTrips;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Users> usersSet = new HashSet<>();
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
