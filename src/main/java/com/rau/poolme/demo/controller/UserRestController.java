@@ -93,9 +93,18 @@ public class UserRestController {
     public ResponseEntity getTrip(@RequestBody @Valid Users users){
         Trips trips = tripsService.findByUsers(users);
         if (trips == null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            for (Users passenger: trips.getUsersSet()) {
+                if (passenger.getCar() == null){
+                    return new ResponseEntity(trips,HttpStatus.OK);
+                }
+
+            }
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(trips,HttpStatus.CREATED);
+
     }
 
 
