@@ -1,7 +1,9 @@
 package com.rau.poolme.demo.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Users {
@@ -24,10 +26,21 @@ public class Users {
     @OneToOne(fetch = FetchType.EAGER)
     private Car car;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "usersSet")
+    private Set<Trips> tripsSet  = new HashSet<>();
+
+    public Set<Trips> getTripsSet() {
+        return tripsSet;
+    }
+
+    public void setTripsSet(Set<Trips> tripsSet) {
+        this.tripsSet = tripsSet;
+    }
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -127,4 +140,5 @@ public class Users {
     public void setCar(Car car) {
         this.car = car;
     }
+
 }

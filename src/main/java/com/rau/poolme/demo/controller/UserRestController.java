@@ -13,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -52,22 +50,22 @@ public class UserRestController {
 
     /*https://poolme.herokuapp.com/user/createTrip*/
     @RequestMapping(value = "createTrip",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createTrip(@RequestBody @Valid Trips trips){
+    public ResponseEntity createTrip(@RequestBody @Valid Trips trips,@RequestBody @Valid Users users){
         trips.setStatusTrips(StatusTrips.BOOKED);
         if(trips.getStartTime() == null){
             trips.setStartTime(new Date());
         }
+        Set<Users> usersSet = new HashSet<>();
+        usersSet.add(users);
+        trips.setUsersSet(usersSet);
         tripsService.save(trips);
-
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     /*https://poolme.herokuapp.com/user/findTrips*/
     @RequestMapping(value = "findTrips",method = RequestMethod.POST ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findTrips(@RequestBody @Valid Trips trips){
-        System.out.println(trips);
         Trips[] tripsArrays = tripsService.findTripsByCoordinates(trips);
-        System.out.println(Arrays.toString(tripsArrays));
             if (tripsArrays.length == 0){
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             }
@@ -76,6 +74,19 @@ public class UserRestController {
     }
 
     /*https://poolme.herokuapp.com/user/acceptTrip*/
+    @RequestMapping(value = "acceptTrip",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity acceptTrip(@RequestBody @Valid Trips trips,@RequestBody @Valid Users users){
+        Trips trips1 = tripsService.findById(trips.getId());
+        Set<Users> tripsSet = new HashSet<>(trips1.getUsersSet());
+        tripsSet.add(users);
+        trips1.setUsersSet(tripsSet);
+        tripsService.save(trips1);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+
+    /*https://poolme.herokuapp.com/user/getTrip*/
     @RequestMapping(value = "getTrip",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTrip(@RequestBody @Valid Users users){
         Trips trips = tripsService.findByUsers(users);

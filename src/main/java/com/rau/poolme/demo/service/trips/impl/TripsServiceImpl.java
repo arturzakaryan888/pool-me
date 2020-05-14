@@ -37,4 +37,9 @@ public class TripsServiceImpl implements TripsService  {
         return tripsRepository.findByUsers(users);
     }
 
+    @Override
+    public Trips findById(int id) {
+        return tripsRepository.getOne(id);
+    }
+
 }

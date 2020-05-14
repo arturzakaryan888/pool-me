@@ -10,4 +10,5 @@ public interface TripsService {
     List<Trips> getAll();
     Trips[] findTripsByCoordinates(Trips trips);
     Trips findByUsers(Users users);
+    Trips findById(int id);
 }

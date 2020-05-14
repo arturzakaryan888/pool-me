@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -171,13 +169,6 @@ public class AdminRestController {
         }
         return new ResponseEntity<>(tripsInProgressList,HttpStatus.OK);
     }
-
-    @RequestMapping(value = "get",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity get(){
-        mailSenderService.sendMessage("lilit.simonyan.1998@gmail.com");
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
 
     /*

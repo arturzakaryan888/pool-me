@@ -1,7 +1,9 @@
 package com.rau.poolme.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Trips {
@@ -18,10 +20,19 @@ public class Trips {
     private int distance;
     @Enumerated
     private StatusTrips statusTrips;
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Users users;
+
+    @ManyToMany
+    private Set<Users> usersSet = new HashSet<>();
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
+
+    public Set<Users> getUsersSet() {
+        return usersSet;
+    }
+
+    public void setUsersSet(Set<Users> usersSet) {
+        this.usersSet = usersSet;
+    }
 
     public int getSeats() {
         return seats;
@@ -101,14 +112,6 @@ public class Trips {
 
     public void setStatusTrips(StatusTrips statusTrips) {
         this.statusTrips = statusTrips;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
     }
 
     public Payment getPayment() {
