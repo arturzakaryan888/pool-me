@@ -52,7 +52,6 @@ public class UserRestController {
     /*https://poolme.herokuapp.com/user/createTrip*/
     @RequestMapping(value = "createTrip",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createTrip(@RequestBody @Valid Trips trips){
-
         trips.setStatusTrips(StatusTrips.BOOKED);
         if(trips.getStartTime() == null){
             trips.setStartTime(new Date());
