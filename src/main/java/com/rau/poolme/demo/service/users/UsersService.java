@@ -10,4 +10,5 @@ public interface UsersService {
     void delete(int id);
     List<Users> getAll();
     Users signIn(String login,String password);
+    Users getByEmail(String email);
 }

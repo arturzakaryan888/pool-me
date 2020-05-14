@@ -9,6 +9,6 @@ public interface TripsService {
     void save(Trips trips);
     List<Trips> getAll();
     List<Trips> findTripsByCoordinates(Trips trips);
-    Trips findByUsers(Users users);
+    Trips findByUsers(int id);
     Trips findById(int id);
 }

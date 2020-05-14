@@ -31,7 +31,8 @@ public class UserRestController {
             users.setDateOfRegistration(new Date());
         }
         usersService.save(users);
-        return new ResponseEntity(HttpStatus.CREATED);
+        Users users1 = usersService.getByEmail(users.getEmail());
+        return new ResponseEntity<Users>(users1,HttpStatus.CREATED);
     }
 
 
@@ -56,10 +57,6 @@ public class UserRestController {
         if(trips.getStartTime() == null){
             trips.setStartTime(new Date());
         }
-        /*
-        Set<Users> usersSet = new HashSet<>();
-        usersSet.add(users);
-        trips.setUsersSet(usersSet);*/
         tripsService.save(trips);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -91,11 +88,12 @@ public class UserRestController {
     /*https://poolme.herokuapp.com/user/getTrip*/
     @RequestMapping(value = "getTrip",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTrip(@RequestBody @Valid Users users){
-        Trips trips = tripsService.findByUsers(users);
+        Trips trips = tripsService.findByUsers(users.getId());
         if (trips == null){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         else {
+
             for (Users passenger: trips.getUsersSet()) {
                 if (passenger.getCar() == null){
                     return new ResponseEntity(trips,HttpStatus.OK);

@@ -15,8 +15,9 @@ public interface TripsRepository extends JpaRepository<Trips,Integer> {
     @Query("SELECT t FROM Trips t WHERE t.fromLatitude = ?1 and t.fromLongitude = ?2 and t.toLatitude = ?3 and t.toLongitude = ?4")
     List<Trips> findTripsByCoordinates(String fromLatitude, String fromLongitude, String toLatitude, String toLongitude );
 
-    @Query("SELECT u FROM Trips u WHERE u.usersSet = ?1")
-    Trips findByUsers(Users users);
+  /*  @Query("SELECT t FROM Trips t JOIN trips_users_set u ON u.users_set_id = ?1")*/
+  @Query("SELECT t FROM Trips t JOIN t.usersSet es WHERE es.id = ?1")
+    Trips findByUsers(int id);
 
 
 
