@@ -77,7 +77,7 @@ public class UserRestController {
 
     /*https://poolme.herokuapp.com/user/acceptTrip*/
     @RequestMapping(value = "acceptTrip",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity acceptTrip(@RequestBody @Valid Trips tripsGIT ){
+    public ResponseEntity acceptTrip(@RequestBody @Valid Trips trips){
         Trips trips1 = tripsService.findById(trips.getId());
         Set<Users> tripsSet = new HashSet<>(trips1.getUsersSet());
         tripsSet.addAll(trips.getUsersSet());
