@@ -21,7 +21,7 @@ public class Users {
     private LocalDate dateOfRegistration;
     private String longitude;
     private String latitude;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Car car;
 
     @JsonIgnore
