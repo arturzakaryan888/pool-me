@@ -13,4 +13,5 @@ public interface UsersService {
     Users signIn(String login,String password);
     Users getByEmail(String email);
     List<Users> getByUsers(LocalDate localDate);
+    Users getByUsername(String username);
 }

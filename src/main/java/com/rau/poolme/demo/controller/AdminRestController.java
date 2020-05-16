@@ -52,13 +52,15 @@ public class AdminRestController {
     }
     @RequestMapping(value = "updateUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateUser(@RequestBody @Valid Users users){
+        if (usersService.getByEmail(users.getEmail()) != null && usersService.getByUsername(users.getUsername()) != null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
         if (users.getDateOfRegistration() == null){
             users.setDateOfRegistration(LocalDate.now());
         }
         usersService.save(users);
         return new ResponseEntity(HttpStatus.CREATED);
     }
-
 
 
 
@@ -196,11 +198,10 @@ public class AdminRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "get",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Users>> get(){
-        LocalDate localDate = LocalDate.of(2020,5,12);
+    @RequestMapping(value = "getUsersByDate/{year}/{month}/{day}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Users>> getUsersByDate(@PathParam("year") @PathVariable int year,@PathParam("month") @PathVariable int month,@PathParam("day") @PathVariable int day){
+        LocalDate localDate = LocalDate.of(year,month,day);
         List<Users> usersList = usersService.getByUsers(localDate);
-
         return new ResponseEntity<List<Users>>(usersList,HttpStatus.OK);
     }
 

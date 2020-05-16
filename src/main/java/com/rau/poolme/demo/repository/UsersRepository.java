@@ -16,6 +16,7 @@ import static org.hibernate.loader.Loader.SELECT;
 public interface UsersRepository extends JpaRepository<Users,Integer> {
     Users getByUsernameAndPassword(String login, String password);
     Users getByEmail(String email);
+    Users getByUsername(String username);
 
 
     @Query("SELECT u from Users u WHERE u.dateOfRegistration >= ?1")
