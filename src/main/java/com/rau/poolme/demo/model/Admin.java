@@ -12,6 +12,24 @@ public class Admin {
     private String name;
     private String lastname;
     private String email;
+    private boolean statusActivate;
+    private int activateCode;
+
+    public int getActivateCode() {
+        return activateCode;
+    }
+
+    public void setActivateCode(int activateCode) {
+        this.activateCode = activateCode;
+    }
+
+    public boolean isStatusActivate() {
+        return statusActivate;
+    }
+
+    public void setStatusActivate(boolean statusActivate) {
+        this.statusActivate = statusActivate;
+    }
 
     public int getId() {
         return id;

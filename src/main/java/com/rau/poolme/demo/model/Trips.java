@@ -1,8 +1,11 @@
 package com.rau.poolme.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -14,8 +17,8 @@ public class Trips {
     private String fromLatitude;
     private String toLongitude;
     private String toLatitude;
-    private Date startTime;
-    private Date endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private int seats;
     private int distance;
     @Enumerated
@@ -25,6 +28,22 @@ public class Trips {
     private Set<Users> usersSet = new HashSet<>();
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
 
     public Set<Users> getUsersSet() {
         return usersSet;
@@ -81,23 +100,6 @@ public class Trips {
     public void setToLatitude(String toLatitude) {
         this.toLatitude = toLatitude;
     }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
     public int getDistance() {
         return distance;
     }

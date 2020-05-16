@@ -1,9 +1,9 @@
 package com.rau.poolme.demo.model;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.*;
+import java.time.LocalDate;
+
 
 @Entity
 public class Users {
@@ -16,11 +16,9 @@ public class Users {
     private String lastname;
     private boolean gender;
     private int age;
-    @DateTimeFormat
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private int phone;
-    @DateTimeFormat
-    private Date dateOfRegistration;
+    private LocalDate dateOfRegistration;
     private String longitude;
     private String latitude;
     @OneToOne(fetch = FetchType.EAGER)
@@ -29,6 +27,23 @@ public class Users {
     @JsonIgnore
     @ManyToMany(mappedBy = "usersSet")
     private Set<Trips> tripsSet  = new HashSet<>();
+
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public LocalDate getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(LocalDate dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
+    }
 
     public Set<Trips> getTripsSet() {
         return tripsSet;
@@ -93,13 +108,6 @@ public class Users {
         this.age = age;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public int getPhone() {
         return phone;
@@ -108,15 +116,6 @@ public class Users {
     public void setPhone(int phone) {
         this.phone = phone;
     }
-
-    public Date getDateOfRegistration() {
-        return dateOfRegistration;
-    }
-
-    public void setDateOfRegistration(Date dateOfRegistration) {
-        this.dateOfRegistration = dateOfRegistration;
-    }
-
     public String getLongitude() {
         return longitude;
     }

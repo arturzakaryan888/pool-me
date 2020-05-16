@@ -19,4 +19,19 @@ public class AdminServiceImpl implements AdminService {
     public void update(Admin admin) {
         adminRepository.save(admin);
     }
+
+    @Override
+    public Admin getByEmail(String email) {
+        return adminRepository.getByEmail(email);
+    }
+
+    @Override
+    public Admin getByUsername(String username) {
+        return adminRepository.getByUsername(username);
+    }
+
+    @Override
+    public Admin getByActivateCode(int activateCode) {
+        return adminRepository.findByActivateCode(activateCode);
+    }
 }

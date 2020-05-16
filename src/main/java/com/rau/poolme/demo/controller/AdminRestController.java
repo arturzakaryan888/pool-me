@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -34,10 +37,10 @@ public class AdminRestController {
 
     @RequestMapping(value = "signIn",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity signIn(@RequestBody Admin admin){
-        if(adminService.signIn(admin.getUsername(), admin.getPassword()) != null ){
+
+        if(adminService.signIn(admin.getUsername(), admin.getPassword()) != null){
             Admin authorized = adminService.signIn(admin.getUsername(), admin.getPassword());
             return new ResponseEntity<Admin>(authorized,HttpStatus.OK);
-
         }
         else {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
@@ -52,7 +55,7 @@ public class AdminRestController {
     @RequestMapping(value = "updateUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateUser(@RequestBody @Valid Users users){
         if (users.getDateOfRegistration() == null){
-            users.setDateOfRegistration(new Date());
+            users.setDateOfRegistration(LocalDate.now());
         }
         usersService.save(users);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -62,15 +65,31 @@ public class AdminRestController {
 
     @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity adminSave(@RequestBody @Valid Admin admin){
-        adminService.update(admin);
+        if (adminService.getByEmail(admin.getEmail()) != null && adminService.getByUsername(admin.getUsername()) != null)
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        mailSenderService.sendMessage(admin);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "activateCode/{activateCode}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity activateCode(@PathVariable int activateCode){
+        Admin admin = adminService.getByActivateCode(activateCode);
+        if (admin == null){
+             return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        admin.setStatusActivate(true);
+        adminService.update(admin);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "deleteUser/{id}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity userDelete(@PathParam("id") @PathVariable int id){
+    public ResponseEntity<List> userDelete(@PathParam("id") @PathVariable int id){
         usersService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        List<Users> usersList = usersService.getAll();
+        return new ResponseEntity(usersList,HttpStatus.OK);
     }
 
     @RequestMapping(value = "getUser/{id}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -171,10 +190,20 @@ public class AdminRestController {
     }
 
 
-    /*
-    * verification email
-    *
-    * */
+
+    @RequestMapping(value = "getMessage",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getMessage(@RequestBody Admin admin){
+        mailSenderService.sendMessage(admin);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "get",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Users>> get(){
+        LocalDate localDate = LocalDate.of(2020,5,12);
+        List<Users> usersList = usersService.getByUsers(localDate);
+
+        return new ResponseEntity<List<Users>>(usersList,HttpStatus.OK);
+    }
 
 
 }

@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -28,7 +30,10 @@ public class UserRestController {
     @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity save(@RequestBody @Valid Users users){
         if (users.getDateOfRegistration() == null){
-            users.setDateOfRegistration(new Date());
+            users.setDateOfRegistration(LocalDate.now());
+        }
+        if (users.getCar() != null){
+            users.getCar().setStatus(false);
         }
         usersService.save(users);
         Users users1 = usersService.getByEmail(users.getEmail());
@@ -54,7 +59,7 @@ public class UserRestController {
     public ResponseEntity createTrip(@RequestBody @Valid Trips trips){
         trips.setStatusTrips(StatusTrips.BOOKED);
         if(trips.getStartTime() == null){
-            trips.setStartTime(new Date());
+            trips.setStartTime(LocalDateTime.now());
         }
         tripsService.save(trips);
         return new ResponseEntity(HttpStatus.CREATED);

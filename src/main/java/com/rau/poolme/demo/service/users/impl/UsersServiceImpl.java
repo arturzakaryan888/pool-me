@@ -6,6 +6,7 @@ import com.rau.poolme.demo.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,6 +37,11 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Users getByEmail(String email) {
         return usersRepository.getByEmail(email);
+    }
+
+    @Override
+    public List<Users> getByUsers(LocalDate localDate) {
+        return usersRepository.getByUsers(localDate);
     }
 
     @Override
