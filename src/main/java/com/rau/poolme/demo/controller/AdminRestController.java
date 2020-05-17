@@ -205,19 +205,16 @@ public class AdminRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "getUsersByDate/{year}/{month}/{day}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Users>> getUsersByDate(@PathParam("year") @PathVariable int year,@PathParam("month") @PathVariable int month,@PathParam("day") @PathVariable int day){
-        LocalDate localDate = LocalDate.of(year,month,day);
+    @RequestMapping(value = "getUsersByDate",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Users>> getUsersByDate(@RequestBody LocalDate localDate){
         List<Users> usersList = usersService.getByUsers(localDate);
         return new ResponseEntity<List<Users>>(usersList,HttpStatus.OK);
     }
 
 
 
-    @RequestMapping(value = "getTripsByDate/{startYear}/{startMonth}/{startDay}/{endYear}/{endMonth}/{endDay}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Trips>> getTripsByDate(@PathParam("startYear") @PathVariable int startYear,@PathParam("startMonth") @PathVariable int startMonth,@PathParam("startDay") @PathVariable int startDay,@PathParam("endYear") @PathVariable int endYear,@PathParam("endMonth") @PathVariable int endMonth,@PathParam("endDay") @PathVariable int endDay){
-        LocalDateTime localDateTimeStart = LocalDateTime.of(startYear,startMonth,startDay,0,0,0);
-        LocalDateTime localDateTimeEnd = LocalDateTime.of(endYear,endMonth,endYear,23,59,59);
+    @RequestMapping(value = "getTripsByDate",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Trips>> getTripsByDate(@RequestBody LocalDateTime localDateTimeStart,LocalDateTime localDateTimeEnd){
         List<Trips> tripsList = tripsService.findByTrips(localDateTimeStart,localDateTimeEnd);
         return new ResponseEntity(tripsList,HttpStatus.OK);
     }
