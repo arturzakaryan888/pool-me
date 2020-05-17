@@ -20,6 +20,8 @@ public class Users {
     @Enumerated
     private StatusAccept statusAccept;
     private int phone;
+
+
     private LocalDate dateOfRegistration;
     private String longitude;
     private String latitude;
