@@ -223,7 +223,7 @@ public class AdminRestController {
     }
 
     @RequestMapping(value = "get",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getMessage(@RequestBody Date date){
+    public ResponseEntity getMessage(@RequestBody LocalDate date){
         return new ResponseEntity(date,HttpStatus.OK);
     }
 
