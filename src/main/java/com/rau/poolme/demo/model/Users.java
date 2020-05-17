@@ -17,6 +17,8 @@ public class Users {
     private boolean gender;
     private int age;
     private LocalDate dateOfBirth;
+    @Enumerated
+    private StatusAccept statusAccept;
     private int phone;
     private LocalDate dateOfRegistration;
     private String longitude;
@@ -27,10 +29,37 @@ public class Users {
     @JsonIgnore
     @ManyToMany(mappedBy = "usersSet")
     private Set<Trips> tripsSet  = new HashSet<>();
-
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", gender=" + gender +
+                ", age=" + age +
+                ", dateOfBirth=" + dateOfBirth +
+                ", statusAccept=" + statusAccept +
+                ", phone=" + phone +
+                ", dateOfRegistration=" + dateOfRegistration +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", car=" + car +
+                ", tripsSet=" + tripsSet +
+                '}';
+    }
+
+    public StatusAccept getStatusAccept() {
+        return statusAccept;
+    }
+
+    public void setStatusAccept(StatusAccept statusAccept) {
+        this.statusAccept = statusAccept;
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {

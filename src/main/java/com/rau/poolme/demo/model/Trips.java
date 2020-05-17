@@ -1,10 +1,9 @@
 package com.rau.poolme.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,10 +23,12 @@ public class Trips {
     @Enumerated
     private StatusTrips statusTrips;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany
+    @Cascade(CascadeType.SAVE_UPDATE)
     private Set<Users> usersSet = new HashSet<>();
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
+
 
     public LocalDateTime getEndTime() {
         return endTime;
