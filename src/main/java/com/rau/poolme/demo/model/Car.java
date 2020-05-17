@@ -19,8 +19,7 @@ public class Car {
     private String type;
     private int seats;
     private boolean status;
-    @DateTimeFormat
-    private Date year;
+    private int year;
 
     public boolean isStatus() {
         return status;
@@ -70,11 +69,11 @@ public class Car {
         this.seats = seats;
     }
 
-    public Date getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Date year) {
+    public void setYear(int year) {
         this.year = year;
     }
 }

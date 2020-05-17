@@ -32,52 +32,24 @@ public class Users {
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-
-    @Override
-    public String toString() {
-        return "Users{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", gender=" + gender +
-                ", age=" + age +
-                ", dateOfBirth=" + dateOfBirth +
-                ", statusAccept=" + statusAccept +
-                ", phone=" + phone +
-                ", dateOfRegistration=" + dateOfRegistration +
-                ", longitude='" + longitude + '\'' +
-                ", latitude='" + latitude + '\'' +
-                ", car=" + car +
-                ", tripsSet=" + tripsSet +
-                '}';
-    }
-
     public StatusAccept getStatusAccept() {
         return statusAccept;
     }
-
     public void setStatusAccept(StatusAccept statusAccept) {
         this.statusAccept = statusAccept;
     }
-
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
     public LocalDate getDateOfRegistration() {
         return dateOfRegistration;
     }
-
     public void setDateOfRegistration(LocalDate dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
     }
-
     public Set<Trips> getTripsSet() {
         return tripsSet;
     }
-
     public void setTripsSet(Set<Trips> tripsSet) {
         this.tripsSet = tripsSet;
     }

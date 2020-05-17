@@ -7,6 +7,7 @@ import com.rau.poolme.demo.service.trips.TripsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -40,6 +41,11 @@ public class TripsServiceImpl implements TripsService  {
     @Override
     public Trips findById(int id) {
         return tripsRepository.getOne(id);
+    }
+
+    @Override
+    public List<Trips> findByTrips(LocalDateTime localDateTimeStart, LocalDateTime localDateTimeEnd) {
+        return tripsRepository.findByTrips(localDateTimeStart,localDateTimeEnd);
     }
 
 }

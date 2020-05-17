@@ -151,6 +151,7 @@ public class UserRestController {
                 }
             }
 
+
         }
         tripsSet.addAll(trips.getUsersSet());
         trips1.setUsersSet(tripsSet);

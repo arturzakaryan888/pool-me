@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -210,6 +211,22 @@ public class AdminRestController {
         List<Users> usersList = usersService.getByUsers(localDate);
         return new ResponseEntity<List<Users>>(usersList,HttpStatus.OK);
     }
+
+
+
+    @RequestMapping(value = "getTripsByDate/{startYear}/{startMonth}/{startDay}/{endYear}/{endMonth}/{endDay}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Trips>> getTripsByDate(@PathParam("startYear") @PathVariable int startYear,@PathParam("startMonth") @PathVariable int startMonth,@PathParam("startDay") @PathVariable int startDay,@PathParam("endYear") @PathVariable int endYear,@PathParam("endMonth") @PathVariable int endMonth,@PathParam("endDay") @PathVariable int endDay){
+        LocalDateTime localDateTimeStart = LocalDateTime.of(startYear,startMonth,startDay,0,0,0);
+        LocalDateTime localDateTimeEnd = LocalDateTime.of(endYear,endMonth,endYear,23,59,59);
+        List<Trips> tripsList = tripsService.findByTrips(localDateTimeStart,localDateTimeEnd);
+        return new ResponseEntity(tripsList,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "get",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getMessage(@RequestBody Date date){
+        return new ResponseEntity(date,HttpStatus.OK);
+    }
+
 
 
 }

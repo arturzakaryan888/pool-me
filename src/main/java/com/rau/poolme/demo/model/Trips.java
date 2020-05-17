@@ -16,6 +16,8 @@ public class Trips {
     private String fromLatitude;
     private String toLongitude;
     private String toLatitude;
+    private String fromAddress;
+    private String toAddress;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private int seats;
@@ -29,6 +31,22 @@ public class Trips {
     @OneToOne(fetch = FetchType.EAGER)
     private Payment payment;
 
+
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
 
     public LocalDateTime getEndTime() {
         return endTime;
