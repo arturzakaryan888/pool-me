@@ -1,6 +1,7 @@
 package com.rau.poolme.demo.controller;
 
 
+import com.rau.poolme.demo.model.StatusAccept;
 import com.rau.poolme.demo.model.StatusTrips;
 import com.rau.poolme.demo.model.Trips;
 import com.rau.poolme.demo.model.Users;
@@ -81,13 +82,18 @@ public class UserRestController {
     public ResponseEntity acceptTrip(@RequestBody @Valid Trips trips){
         Trips trips1 = tripsService.findById(trips.getId());
         Set<Users> tripsSet = new HashSet<>(trips1.getUsersSet());
+        for (Users passanger:trips.getUsersSet()) {
+            if (passanger.getCar() == null){
+                if (passanger.getStatusAccept() == null){
+                    passanger.setStatusAccept(StatusAccept.INPROGRESS);
+                }
+            }
+        }
         tripsSet.addAll(trips.getUsersSet());
         trips1.setUsersSet(tripsSet);
         tripsService.save(trips1);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
 
     /*https://poolme.herokuapp.com/user/getTrip*/
     @RequestMapping(value = "getTrip",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
@@ -108,6 +114,83 @@ public class UserRestController {
         }
 
     }
+
+    /*https://poolme.herokuapp.com/user/ignorPassanger*/
+    @RequestMapping(value = "ignorPassenger",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity ignorPassenger(@RequestBody @Valid Trips trips){
+        Trips trips1 = tripsService.findById(trips.getId());
+        Set<Users> tripsSet = new HashSet<>(trips1.getUsersSet());
+
+        for (Users passenger:tripsSet) {
+            for (Users passengerStatus:trips.getUsersSet()) {
+                if (passenger.getId() == passengerStatus.getId() && passenger.getStatusAccept() != passengerStatus.getStatusAccept()) {
+                    passenger.setStatusAccept(passengerStatus.getStatusAccept());
+                }
+            }
+        }
+
+        tripsSet.addAll(trips.getUsersSet());
+        trips1.setUsersSet(tripsSet);
+        tripsService.save(trips1);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /*https://poolme.herokuapp.com/user/ignorPassanger*/
+    @RequestMapping(value = "AcceptPassenger",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity AcceptPassenger(@RequestBody @Valid Trips trips){
+        Trips trips1 = tripsService.findById(trips.getId());
+        Set<Users> tripsSet = new HashSet<>(trips1.getUsersSet());
+        for (Users passenger:tripsSet) {
+            for (Users passengerStatus:trips.getUsersSet()){
+                if (passenger.getId() == passengerStatus.getId() && passenger.getStatusAccept() != passengerStatus.getStatusAccept()) {
+                        passenger.setStatusAccept(passengerStatus.getStatusAccept());
+                }
+                if(passenger.getCar() != null && passenger.getId() == passengerStatus.getId()){
+                    passenger.setLatitude(passengerStatus.getLatitude());
+                    passenger.setLongitude(passengerStatus.getLongitude());
+                }
+            }
+
+        }
+        tripsSet.addAll(trips.getUsersSet());
+        trips1.setUsersSet(tripsSet);
+        tripsService.save(trips1);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /*https://poolme.herokuapp.com/user/ignorPassanger*/
+    @RequestMapping(value = "AcceptDriver",method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity AcceptDriver(@RequestBody @Valid Users users){
+        Trips trips = tripsService.findByUsers(users.getId());
+        if (trips == null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        for (Users passenger: trips.getUsersSet()) {
+            if (passenger.getCar() == null){
+                if (passenger.getId() == users.getId()){
+                    if (passenger.getStatusAccept() == StatusAccept.ACCEPT){
+                        return new ResponseEntity(trips,HttpStatus.ACCEPTED);
+                    }
+                    if (passenger.getStatusAccept() == StatusAccept.INPROGRESS){
+                        return new ResponseEntity(HttpStatus.OK);
+                    }
+                    else {
+                        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                    }
+
+                }
+            }
+
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+
+
+
+
+
+
 
 
 
