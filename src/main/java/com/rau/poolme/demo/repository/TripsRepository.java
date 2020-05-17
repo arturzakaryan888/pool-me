@@ -19,6 +19,8 @@ public interface TripsRepository extends JpaRepository<Trips,Integer> {
     @Query("SELECT t from Trips t WHERE t.endTime >= ?1 AND t.endTime  <= ?2")
     List<Trips> findByTrips(LocalDateTime localDateTimeStart,LocalDateTime localDateTimeEnd);
 
+
+
     @Query("SELECT t FROM Trips t JOIN t.usersSet es WHERE es.id = ?1")
     Trips findByUsers(int id);
 
