@@ -50,14 +50,21 @@ public class AdminRestController {
         adminService.update(admin);
         return new ResponseEntity(HttpStatus.CREATED);
     }
-    @RequestMapping(value = "updateUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateUser(@RequestBody @Valid Users users){
+
+    @RequestMapping(value = "createUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createUser(@RequestBody @Valid Users users){
         if (usersService.getByEmail(users.getEmail()) != null && usersService.getByUsername(users.getUsername()) != null){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         if (users.getDateOfRegistration() == null){
             users.setDateOfRegistration(LocalDate.now());
         }
+        usersService.save(users);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "updateUser",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateUser(@RequestBody @Valid Users users){
         usersService.save(users);
         return new ResponseEntity(HttpStatus.CREATED);
     }
