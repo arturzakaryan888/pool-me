@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -214,7 +215,11 @@ public class AdminRestController {
 
 
     @RequestMapping(value = "getTripsByDate",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Trips>> getTripsByDate(@RequestBody LocalDateTime localDateTimeStart,LocalDateTime localDateTimeEnd){
+    public ResponseEntity<List<Trips>> getTripsByDate(@RequestBody LocalDate localDateStart,LocalDate localDateEnd){
+        LocalTime localTimeStart = LocalTime.of(0,0);
+        LocalTime localTimeEnd = LocalTime.of(23,59);
+        LocalDateTime localDateTimeStart = LocalDateTime.of(localDateStart,localTimeStart);
+        LocalDateTime localDateTimeEnd = LocalDateTime.of(localDateEnd,localTimeEnd);
         List<Trips> tripsList = tripsService.findByTrips(localDateTimeStart,localDateTimeEnd);
         return new ResponseEntity(tripsList,HttpStatus.OK);
     }
