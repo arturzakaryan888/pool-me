@@ -96,7 +96,7 @@ public class AdminRestController {
 
 
     @RequestMapping(value = "deleteUser/{id}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List> userDelete(@PathParam("id") @PathVariable int id){
+    public ResponseEntity userDelete(@PathParam("id") @PathVariable int id){
         usersService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
