@@ -144,6 +144,8 @@ public class AdminRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
     @RequestMapping(value = "getTrips",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Trips>> getTrips(){
         List<Trips> tripsList = tripsService.getAll();
